@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBS Human Capital Practice — Go-to-Market Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#ECE8E2; --teal-deep:#0D5A67; --teal:#006778; --teal-bright:#0097A7;
+    --teal-light:#80C6C6; --orange:#DC8044; --peach:#FFBA7B; --charcoal:#333; --white:#fff;
+    --ink:#22303F;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 32px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* Hero */
+  .hero{background:var(--teal-deep);color:var(--cream);padding:64px 0 56px;}
+  .hero .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-light);margin-bottom:22px;}
+  .hero h1{font-size:clamp(34px,5.4vw,58px);font-weight:400;letter-spacing:-1.6px;line-height:1.05;color:var(--cream);}
+  .hero h1 em{font-style:italic;color:var(--peach);}
+  .hero .sub{font-size:19px;font-weight:300;color:var(--teal-light);margin-top:20px;max-width:620px;}
+
+  /* Step index */
+  .index{background:var(--teal);padding:20px 0;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,.15);}
+  .index .wrap{display:flex;flex-wrap:wrap;gap:8px 10px;}
+  .index a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--cream);text-decoration:none;padding:5px 11px;border:1px solid rgba(255,255,255,.28);border-radius:999px;transition:background .15s,border-color .15s;}
+  .index a:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.5);}
+  .index a b{color:var(--peach);font-weight:500;margin-right:5px;}
+
+  /* Sections */
+  section{padding:52px 0;border-bottom:1px solid rgba(13,90,103,.14);}
+  section:last-of-type{border-bottom:none;}
+  .step-eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal-bright);margin-bottom:12px;display:flex;align-items:baseline;gap:12px;}
+  .step-eyebrow .n{font-size:40px;font-weight:500;color:var(--orange);letter-spacing:0;line-height:1;}
+  h2{font-size:clamp(26px,3.4vw,38px);font-weight:400;letter-spacing:-1px;color:var(--teal-deep);line-height:1.1;margin-bottom:18px;}
+  h3{font-size:18px;font-weight:600;color:var(--teal-deep);margin:26px 0 8px;}
+  p{font-size:16.5px;margin-bottom:14px;}
+  p.lead{font-size:19px;font-weight:300;color:var(--teal-deep);}
+  strong{font-weight:600;color:var(--teal-deep);}
+  .rule{width:44px;height:3px;background:var(--orange);border-radius:2px;margin:0 0 22px;}
+
+  ul.clean{list-style:none;margin:8px 0 14px;}
+  ul.clean li{position:relative;padding-left:22px;margin-bottom:9px;font-size:16px;}
+  ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;background:var(--teal-bright);border-radius:50%;}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 8px;}
+  .card{background:var(--white);border-radius:10px;padding:18px 20px;border-top:3px solid var(--teal-bright);}
+  .card h4{font-size:15px;font-weight:600;color:var(--teal-deep);margin-bottom:6px;}
+  .card p{font-size:14.5px;color:var(--charcoal);margin:0;line-height:1.55;}
+
+  .lane{background:var(--white);border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:20px 24px;margin:14px 0;}
+  .lane .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
+  .lane h4{font-size:18px;font-weight:600;color:var(--teal-deep);margin-bottom:6px;}
+  .lane p{font-size:15.5px;margin:0;}
+
+  .callout{background:var(--teal-deep);color:var(--teal-light);border-radius:12px;padding:24px 28px;margin:22px 0;}
+  .callout strong{color:var(--peach);}
+
+  .names-head{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin:28px 0 14px;}
+  .names{display:flex;flex-direction:column;gap:12px;margin:0 0 18px;}
+  .name-card{display:flex;align-items:center;gap:22px;background:var(--white);border:1px solid rgba(13,90,103,.14);border-left:6px solid var(--orange);border-radius:12px;padding:20px 26px;}
+  .name-card .idx{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:500;color:var(--orange);min-width:40px;line-height:1;}
+  .name-card .nm{font-size:clamp(21px,2.6vw,27px);font-weight:600;color:var(--teal-deep);letter-spacing:-0.6px;line-height:1.1;}
+  .name-card .why{font-size:14.5px;color:var(--charcoal);margin-top:5px;}
+
+  .flags{background:rgba(220,128,68,.10);border-radius:10px;padding:20px 24px;margin-top:22px;}
+  .flags h3{margin-top:0;color:var(--orange);}
+
+  /* Footer */
+  footer{background:var(--teal-deep);color:var(--teal-light);padding:44px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+  footer .contact-name{font-size:20px;color:var(--cream);}
+  footer .contact-meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--peach);margin-top:6px;}
+  footer .wordmark svg{height:20px;width:auto;opacity:.8;}
+  footer .note{font-size:12px;color:var(--teal-light);opacity:.7;margin-top:10px;}
+  @media(max-width:640px){.cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Vinyl &nbsp;&times;&nbsp; Competitive Business Solutions</div>
+    <h1>The Human Capital<br>Practice: a plan to<br><em>take it to market.</em></h1>
+    <div class="sub">A six-step go-to-market strategy, from research through measurement. Prepared for your review.</div>
+  </div>
+</header>
+
+<nav class="index">
+  <div class="wrap">
+    <a href="#research"><b>01</b>Research</a>
+    <a href="#offer"><b>02</b>Offer</a>
+    <a href="#assets"><b>03</b>Assets</a>
+    <a href="#channels"><b>04</b>Channels</a>
+    <a href="#enablement"><b>05</b>Sales Enablement</a>
+    <a href="#measure"><b>06</b>Measure</a>
+  </div>
+</nav>
+
+<section id="intro">
+  <div class="wrap">
+    <div class="step-eyebrow">Introduction</div>
+    <div class="rule"></div>
+    <p class="lead">CBS is standing up an operations-first human capital practice, and you're leading it. You built and ran it before bringing it to CBS. It sells to operations leaders, never HR.</p>
+    <p>Two revenue shapes carry it: interim management, the fast and direct engine, and human capital consulting, a slow-burn add-on to CBS's existing engagements. Vinyl's job is to name it, package it, and take it to market on two lanes. This document lays out the plan in our six steps: research, offer, assets, channels, sales enablement, and measurement.</p>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">01</span> Step One &middot; Research</div>
+    <h2>The market, the buyer, and where CBS can win.</h2>
+    <div class="rule"></div>
+
+    <h3>The market and what competitors do</h3>
+    <p>Human capital is now treated as a core value-creation lever in private equity, not an HR cost center. Demand for interim and fractional leadership is rising alongside it. The competitors sort into three camps, with a clear gap between them:</p>
+    <div class="cards">
+      <div class="card"><h4>TBM — the direct analog</h4><p>Brands it as "Leadership Solutions": strategic interim leaders, leadership development, human capital management, and talent management, positioned at the point of execution. This is your playbook. Learn from it, don't copy it — the name is TBM's brand.</p></div>
+      <div class="card"><h4>Big strategy / PE firms</h4><p>AlixPartners and Alvarez &amp; Marsal. Premium, PE value-creation lens; consultants take interim roles for accountability. Broad, expensive, and they tend to own one narrow slice.</p></div>
+      <div class="card"><h4>Marketplaces &amp; search</h4><p>BluWave and Cerius match a vetted interim executive fast; Spencer Stuart and Russell Reynolds place a CHRO or assess leadership. Both place a person; neither drives the change on the floor.</p></div>
+      <div class="card"><h4>The white space for CBS</h4><p>Almost nobody combines operations-first, plant-floor execution with interim leadership plus the talent systems, hands-on, at a mid-market price. That is exactly where you and CBS sit.</p></div>
+    </div>
+
+    <h3>The buyer and how they buy</h3>
+    <p>An operations leader feeling a profitability problem with a people cause underneath. Triggers: slipping results, high turnover, untracked absenteeism, post-acquisition "do we have the right people?", and the urgent leadership-transition call. They don't search for an "interim firm" — they go to a firm they trust and ask, "Do you have anyone who could do this?" The consulting side is roughly 80% add-on to a traditional engagement; interim is the reverse, roughly 80% proactive inbound.</p>
+
+    <h3>Economics and where CBS stands</h3>
+    <p>Interim is the engine and high-margin: contract leaders, not on benefits, no cost when idle. Engagements run 3&ndash;12 months and are discounted from the traditional fee structure, so CBS can win $50&ndash;100M companies, not just conglomerates. CBS's online content is thin today, and CBS already sells a "Leadership and Change Management" service that overlaps this practice.</p>
+  </div>
+</section>
+
+<section id="offer">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">02</span> Step Two &middot; Offer</div>
+    <h2>What we sell, and what we call it.</h2>
+    <div class="rule"></div>
+    <p>Three capabilities plus the engine:</p>
+    <ul class="clean">
+      <li><strong>Interim management (the engine).</strong> An experienced contract leader runs a function and drives a 3&ndash;12 month transition.</li>
+      <li><strong>Human capital consulting.</strong> The diagnostic: turnover and absenteeism data, a change-readiness assessment mapping resistors against key stakeholders, and a stakeholder analysis for the executive team.</li>
+      <li><strong>Talent management.</strong> The systems: new talent-acquisition channels, retention and succession strategies, training and onboarding, redesigned org charts.</li>
+      <li><strong>Change management.</strong> Woven through everything, not sold as its own line.</li>
+    </ul>
+    <div class="callout">
+      <p style="margin:0;"><strong>Naming principle: ontological and findable.</strong> Name it for what it is, no acronym, don't bury it, make it searchable. Avoid "fractional," "embedded," "organizational effectiveness," and HR speak. Learn from TBM's three mistakes: a separate LLC, an acronym ("TLS") that Googles to nothing, and dumbing it down out of cannibalization fear.</p>
+    </div>
+    <div class="names-head">The three names we're proposing</div>
+    <div class="names">
+      <div class="name-card"><div class="idx">01</div><div><div class="nm">Interim Management &amp; Leadership</div><div class="why">Front-loads the exact term buyers search. Strongest for findability.</div></div></div>
+      <div class="name-card"><div class="idx">02</div><div><div class="nm">Leadership &amp; Talent Solutions</div><div class="why">Broadest of the three: covers interim and the consulting side under one roof.</div></div></div>
+      <div class="name-card"><div class="idx">03</div><div><div class="nm">Operations Leadership &amp; Talent</div><div class="why">Anchors on "operations," the buyer's own language, not HR's.</div></div></div>
+    </div>
+    <p>All three stay plain and findable, and steer clear of TBM's exact "Leadership Solutions" brand. You react, we lock one.</p>
+    <ul class="clean">
+      <li><strong>Whichever wins,</strong> the flagship page stays titled <em>Interim Management</em> — the literal term buyers search.</li>
+      <li><strong>Fold in</strong> the existing "Leadership and Change Management" page rather than run two competing "Leadership" pages.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="assets">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">03</span> Step Three &middot; Assets</div>
+    <h2>What we build.</h2>
+    <div class="rule"></div>
+    <p>Clients always ask for a 1&ndash;2 page PDF, and CBS needs website depth. In priority order:</p>
+    <ul class="clean">
+      <li><strong>Interim one-pager.</strong> A draft is built on the CBS design system. It still needs the real CBS logo dropped in and your review before it ships.</li>
+      <li><strong>Overview one-pager.</strong> Write and design a single page covering the whole practice and its three buckets. Not started.</li>
+      <li><strong>Website.</strong> Build the practice hub, title the Interim Management page for search, and cross-link it from the operational-excellence, consulting, private-equity, and acquisitions pages. Confirm the new pages index cleanly.</li>
+      <li><strong>Content and case studies.</strong> Capture your stories (Nebraska 250-hire, Missouri charcoal, Illinois stakeholder analysis) on a weekly cadence and publish them under this category.</li>
+      <li><strong>Internal cheat sheet.</strong> Details in Step Five.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="channels">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">04</span> Step Four &middot; Channels</div>
+    <h2>Two lanes to market.</h2>
+    <div class="rule"></div>
+    <div class="lane">
+      <div class="tag">Lane A &middot; Internal</div>
+      <h4>Enable the consultants</h4>
+      <p>The 80%-add-on engine. CBS consultants are already inside active engagements; they surface the people problem and bring you in. A lead channel that runs on internal enablement, not ads.</p>
+    </div>
+    <div class="lane">
+      <div class="tag">Lane B &middot; External</div>
+      <h4>Own the trigger moment</h4>
+      <p>For interim. Brand and awareness to existing clients and A&amp;D / PE executives, not lead-gen search, because nobody Googles for it. Be the default call when a seat empties: website presence, real SEO/AEO, a LinkedIn launch, and a few high-end ads. Draft off your track record. Keep it "when your people leave, we're who to call," never "buy now."</p>
+    </div>
+  </div>
+</section>
+
+<section id="enablement">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">05</span> Step Five &middot; Sales Enablement</div>
+    <h2>The consultants are the sales force.</h2>
+    <div class="rule"></div>
+    <p>Most of the consulting revenue comes through active engagements, so the CBS consultants are the real sales force. The biggest blocker you named: consultants won't mention a service if they fear a question they can't answer.</p>
+    <ul class="clean">
+      <li><strong>The cheat sheet.</strong> One page: the buying signals, operations-and-profitability framing (not HR), a few qualifying questions, and the unlock line — "I don't have all the answers; let me share what I've got and pull in Shannon" — plus who to route to.</li>
+      <li><strong>The incentive.</strong> Consultants won't bring you in without a profit motive. Give them a piece and they will. A comp decision for CBS.</li>
+      <li><strong>You on center stage.</strong> A recurring internal slot where you teach the team what you do and how to spot it, plus the weekly story-capture cadence.</li>
+      <li><strong>Adoption goal.</strong> Beat TBM's two-year curve: smaller team, flexible leadership, no cannibalization fear.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="measure">
+  <div class="wrap">
+    <div class="step-eyebrow"><span class="n">06</span> Step Six &middot; Measure</div>
+    <h2>How we'll know it's working.</h2>
+    <div class="rule"></div>
+    <div class="cards">
+      <div class="card"><h4>Leading indicators</h4><p>Consultants surfacing the practice on live engagements, intros made, add-on scope signed, interim inbound calls, pages live and cleanly indexed, keyword findability, content and case studies published.</p></div>
+      <div class="card"><h4>Lagging indicators</h4><p>Revenue by bucket against the ~80% interim / 20% consulting shape, and adoption speed against the two-year TBM benchmark.</p></div>
+    </div>
+    <div class="callout"><p style="margin:0;"><strong>One caution:</strong> interim engagements carry no ROI number by design. Measure demand, adoption, and delivered milestones, not ROI.</p></div>
+  </div>
+</section>
+
+<section id="conclusion">
+  <div class="wrap">
+    <div class="step-eyebrow">Conclusion</div>
+    <div class="rule"></div>
+    <p>The fastest path to momentum: ship the quick wins first — finish the interim one-pager and build the consultant cheat sheet, neither of which waits on the name — then lock the name together and build out the website depth and case studies behind it. Run both lanes in parallel: enable the consultants inside active work, and keep interim awareness in front of A&amp;D and PE leaders so CBS is the call when a seat empties. The target is to beat the two-year adoption curve you lived through at TBM.</p>
+    <div class="flags">
+      <h3>Open items for you and CBS</h3>
+      <ul class="clean">
+        <li>The name — pick the best of the three options above.</li>
+        <li>Internal enablement — how CBS equips and motivates consultants to surface the practice and bring you in on active engagements.</li>
+        <li>Relationship to the existing Leadership &amp; Change Management page (recommend folding it in).</li>
+        <li>Final sign-off on the do / don't language.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="contact-name">Josh Agee</div>
+      <div class="contact-meta">Vinyl Marketing &nbsp;&middot;&nbsp; josh@vinylmarketing.com</div>
+      <div class="note">Built from your discovery call, the July team session, and a live market scan.</div>
+    </div>
+    <div class="wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 346" fill="none"><path d="M67.2911 5.50427L153.389 200.364C156.561 207.564 166.839 207.505 169.951 200.306L253.818 5.56281C255.227 2.22637 258.516 0.119141 262.099 0.119141H311.726C318.245 0.119141 322.591 6.79204 320.007 12.704L176.588 340.495C175.178 343.773 171.889 345.88 168.307 345.88H157.031C153.448 345.88 150.277 343.773 148.808 340.554L0.808551 12.821C-1.89304 6.85055 2.51172 0.119141 9.03077 0.119141H59.0101C62.5926 0.119141 65.8228 2.22636 67.2911 5.50427Z" fill="#ECE8E2"/><path d="M449.203 9.12949V332.53C449.203 337.506 445.151 341.545 440.159 341.545H392.059C387.067 341.545 383.014 337.506 383.014 332.53V9.12949C383.014 4.15409 387.067 0.115234 392.059 0.115234H440.159C445.151 0.115234 449.203 4.15409 449.203 9.12949Z" fill="#ECE8E2"/><path d="M589.735 3.27794L774.617 219.737C780.079 226.117 790.533 222.254 790.533 213.884V9.07281C790.533 4.09741 794.585 0.0585466 799.577 0.0585466H846.209C851.201 0.0585466 855.254 4.09741 855.254 9.07281V332.474C855.254 337.449 851.201 341.488 846.209 341.488H802.573C799.93 341.488 797.404 340.317 795.643 338.269L609.527 118.122C604.124 111.683 593.552 115.546 593.552 123.917V332.415C593.552 337.391 589.5 341.43 584.508 341.43H537.876C532.884 341.43 528.832 337.391 528.832 332.415V9.01426C528.832 4.03886 532.884 0 537.876 0H582.805C585.447 0 587.973 1.17069 589.676 3.16085L589.735 3.27794Z" fill="#ECE8E2"/><path d="M990.851 3.80473L1063.74 104.191C1067.32 109.166 1074.72 109.166 1078.36 104.191L1152.18 3.74618C1153.89 1.40482 1156.59 0.0585466 1159.47 0.0585466H1215.55C1223.01 0.0585466 1227.24 8.54599 1222.78 14.4579L1105.96 169.925C1104.79 171.505 1104.14 173.378 1104.14 175.31V332.415C1104.14 337.391 1100.09 341.43 1095.1 341.43H1047C1042.01 341.43 1037.95 337.391 1037.95 332.415V174.841C1037.95 172.91 1037.31 170.978 1036.13 169.398L918.672 14.4579C914.15 8.54599 918.437 0 925.896 0H983.569C986.447 0 989.207 1.40482 990.91 3.74618L990.851 3.80473Z" fill="#ECE8E2"/><path d="M1353.74 9.12949V280.962C1353.74 285.937 1357.79 289.976 1362.78 289.976H1510.96C1515.95 289.976 1520 294.015 1520 298.99V332.53C1520 337.506 1515.95 341.545 1510.96 341.545H1296.59C1291.6 341.545 1287.55 337.506 1287.55 332.53V9.12949C1287.55 4.15409 1291.6 0.115234 1296.59 0.115234H1344.69C1349.68 0.115234 1353.74 4.15409 1353.74 9.12949Z" fill="#ECE8E2"/></svg></div>
+  </div>
+</footer>
+
+</body>
+</html>
